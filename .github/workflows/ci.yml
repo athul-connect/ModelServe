@@ -28,3 +28,23 @@ jobs:
 
       - name: Bulid docker image
         run: docker build -t modelserve:ci . 
+
+      - name: start test container
+        run: docker run -d --name modelserve-ci -p 8000:8000 modelserve:ci
+
+      - name: check API health
+        run: |
+          for i in {1..20}; do
+            if curl --fail http://127.0.0.1:8000/health; then
+             exit 0
+            fi 
+            sleep 2
+          done
+          docker logs modelserve-ci 
+          exit 1
+
+      - name: clean up test container
+        if: always()
+        run: docker rm -f modelserve-ci || true
+
+
