@@ -67,3 +67,7 @@ def predict_churn(customer:CustomerData):
         "churn_prediction": "yes" if prediction == 1 else "No",
         "churn_probability": round(float(probability), 4)
     }
+
+@app.get("/health")
+def check_health():
+    return {"status":"healthy"}
