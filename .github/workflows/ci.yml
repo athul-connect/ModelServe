@@ -25,3 +25,6 @@ jobs:
 
       - name: Run tests
         run: python -m pytest -v
+
+      - name: Bulid docker image
+        run: docker build -t modelserve:ci . 
